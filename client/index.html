@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" type= "text/css" href="resources/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -16,12 +19,148 @@
             <a class="navbar-brand" href="#">To Do List</a>
             </div>
             <ul class="nav navbar-nav navbar-items">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Page 1</a></li>
-            <li><a href="#">Page 2</a></li>
-            <li><a href="#">Page 3</a></li>
+                <li><a href="#" onclick="createTask()">Create Task</a></li>
+                <li><a href="#">Sign out</a></li>
             </ul>
         </div>
-    </nav>  
+    </nav>
+    <main class="parent">
+        <div class="bem">
+            <form class="signin">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary signin" onclick="signIn()">Submit</button>
+                </div>
+                <button type="button" class="btn btn-primary register" onclick="signUp()">Register</button>        
+            </form>
+        </div>
+        <form class="signup">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" placeholder="first name">
+            </div>
+            <div class="form-group">
+                <label for="password">Last Name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="last name">
+            </div>
+            <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="email">
+                </div>
+            <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" onclick="register()">Submit</button>
+            </div>        
+        </form>
+        <div class="container-fluid">
+            <form id="task">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" placeholder="task name">
+                </div>
+                <div class="form-group">
+                    <label for="details">Details</label>
+                    <input type="text" class="form-control" name="details" placeholder="password">
+                </div>
+                <div class="form-group">
+                    <label for="date">Due Date</label>
+                    <input type="date" class="form-control" name="date" placeholder="date">
+                </div>
+                <div class="form-group">
+                    <label for="password">Status</label>
+                    <div class="form-group">
+                        <input type="radio" name="status"> Finished
+                    </div>
+                    <input type="radio" name="status"> Not Finished
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+            <div class="row" id="home">
+                <div class="col-xs-3">
+                    <div class="card card-bem">
+                        <ul class="list-group list-group-flush" >
+                            <li class="list-group-item">First Task</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-9" id="content">
+                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-danger">Finish</button>
+                    <button class="btn btn-default">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+    <script>
+        $(".navbar").hide()
+        $(".signup").hide()
+        $("#home").hide()
+        $("#task").hide()
+
+        $(".signup").click("submit", (e) => {
+            e.preventDefault()
+            $(".signin").show()
+            $(".signup").hide() 
+        })
+
+        $(".list-group-item").on('click', function (e) {
+            $(".list-group-item").removeClass('active');
+
+            $(this).addClass('active');
+        });
+
+        $(".signin").click("submit", (e) => {
+            e.preventDefault()
+            $(".signin").hide()
+            $(".navbar").show()
+            $("#home").show()
+        });
+
+        function createTask() {
+            $("#home").hide();
+            $("#task").show();
+        }
+
+        function signIn() {
+
+        }
+
+        function signUp() {
+            $(".signin").hide()
+            $(".signup").show()
+        }
+
+        function register() {
+            $.ajax({
+                method: "POST",
+                url: "http:localhost:3000/register",
+                data: { 
+                    firstName: $(".firstName").val(), 
+                    lastName: $(".firstName").val(),
+                    email: $(".firstName").val(),
+                    password: $(".firstName").val()
+                }
+                })
+                .done((user) => {
+                
+                })
+                .fail(((err) => {
+
+                }))
+        }
+    </script>
 </body>
 </html>

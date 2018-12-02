@@ -4,9 +4,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+const mongoose = require('mongoose');
 var app = express();
 require('dotenv').config()
+
+mongoose.connect('mongodb://localhost/my_database');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
