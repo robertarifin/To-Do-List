@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" type= "text/css" href="resources/css/index.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -26,69 +24,79 @@
     </nav>
     <main class="parent">
         <div class="bem">
-            <form class="signin">
+            <div class="alert alert-danger" id="alertError">
+                <p id="alertMessage"><strong>Failed!</strong> Failed to create user</p>
+            </div>
+            <form class="signin" id="signinForm">
                 <div class="form-group">
                     <label for="email">Email address</label>
-                    <input type="email" class="form-control" placeholder="Enter email">
+                    <input type="email" class="form-control" id="signInEmail" placeholder="Enter email">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input type="password" class="form-control" id="signInPassword" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary signin" onclick="signIn()">Submit</button>
+                    <button type="submit" class="btn btn-primary signin">Login</button>
                 </div>
                 <button type="button" class="btn btn-primary register" onclick="signUp()">Register</button>        
             </form>
         </div>
-        <form class="signup">
+        <div class="alert alert-danger" id="signupError">
+            <strong>Failed!</strong> Please check all the fields again
+        </div>
+        <form class="signup"  id="signupForm">
+            <h2 class= "signupHeader">Sign Up</h2>
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" placeholder="first name">
+                <input type="text" class="form-control" id="firstName" placeholder="first name" required>
             </div>
             <div class="form-group">
                 <label for="password">Last Name</label>
-                <input type="text" class="form-control" id="lastName" placeholder="last name">
+                <input type="text" class="form-control" id="lastName" placeholder="last name" required>
             </div>
             <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="email">
+                    <input type="email" class="form-control" id="email" placeholder="email" required>
                 </div>
             <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="password">
+                    <input type="password" class="form-control" id="password" placeholder="password" required>
                 </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" onclick="register()">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>        
         </form>
         <div class="container-fluid">
             <form id="task">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="task name">
+                    <input type="text" class="form-control" id="name" placeholder="task name" required>
                 </div>
                 <div class="form-group">
                     <label for="details">Details</label>
-                    <input type="text" class="form-control" name="details" placeholder="password">
+                    <input type="text" class="form-control" id="details" placeholder="details">
                 </div>
                 <div class="form-group">
                     <label for="date">Due Date</label>
-                    <input type="date" class="form-control" name="date" placeholder="date">
+                    <input type="date" class="form-control" id="date" placeholder="date" required>
                 </div>
-                <div class="form-group">
-                    <label for="password">Status</label>
+                <div id="radioChoice">            
                     <div class="form-group">
-                        <input type="radio" name="status"> Finished
+                        <label for="status">Status</label>
+                        <div class="form-group">
+                            <input type="radio" name="status" id="r1" value="finished"> Finished
+                        </div>
+                        <input type="radio" name="status" id="r2" value="not finish"> Not Finished
                     </div>
-                    <input type="radio" name="status"> Not Finished
                 </div>
+               
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>
-            <div class="row" id="home">
+            <div class="row" id="maincContent">
                 <div class="col-xs-3">
                     <div class="card card-bem">
-                        <ul class="list-group list-group-flush" >
+                        <ul class="list-group list-group-flush" id="itemList" >
                             <li class="list-group-item">First Task</li>
                             <li class="list-group-item">Dapibus ac facilisis in</li>
                             <li class="list-group-item">Vestibulum at eros</li>
@@ -106,14 +114,36 @@
     </main>
     <script>
         $(".navbar").hide()
-        $(".signup").hide()
-        $("#home").hide()
+        $("#signupForm").hide()
+        $("#maincContent").hide()
         $("#task").hide()
+        $("#alertError").hide()
+        $("#signupError").hide()
 
-        $(".signup").click("submit", (e) => {
+        $("#signupForm").on("submit", function(e) {
             e.preventDefault()
-            $(".signin").show()
-            $(".signup").hide() 
+            
+            $.ajax({
+                method: "POST",
+                url: "http://localhost:3000/users/register",
+                data: { 
+                    firstName: $("#firstName").val(), 
+                    lastName: $("#lastName").val(),
+                    email: $("#email").val(),
+                    password: $("#password").val()
+                }
+                })
+                .done((user) => {
+                    $("#firstName").val('')
+                    $("#lastName").val('')
+                    $("#email").val('')
+                    $("#password").val('')
+                    $("#signinForm").show()
+                    $("#signupForm").hide()     
+                })
+                .fail(((err) => {
+                    $("#signupError").show()
+                }))
         })
 
         $(".list-group-item").on('click', function (e) {
@@ -122,44 +152,86 @@
             $(this).addClass('active');
         });
 
-        $(".signin").click("submit", (e) => {
+        $("#task").on('submit', function(e) {
             e.preventDefault()
-            $(".signin").hide()
-            $(".navbar").show()
-            $("#home").show()
+      
+            $.ajax({
+                method: "POST",
+                url: "http://localhost:3000/tasks/create",
+                data: { 
+                    name: $("#name").val(), 
+                    details: $("#details").val(),
+                    due_date: $("#date").val(),
+                    status: $('#task input[name=status]:checked').val(),
+                    token: localStorage.getItem("token")
+                }
+            })
+            .done((task) => { 
+                $("#alertError").hide()
+                $("#task").hide()
+                $("#maincContent").show()
+                showAllTasks()
+            })
+            .fail(((err) => {
+                console.log(err)
+            }))
+        })
+
+        $("#signinForm").on("submit", function(e) {
+            e.preventDefault()
+            $.ajax({
+                method: "POST",
+                url: "http://localhost:3000/users/login",
+                data: { 
+                    email: $("#signInEmail").val(), 
+                    password: $("#signInPassword").val()
+                }
+                })
+            .done((token) => { 
+                $("#alertError").hide()            
+                $("#signinForm").hide()
+                $(".navbar").show()
+                $("#maincContent").show()
+         
+                localStorage.setItem('token', token.token)
+                 showAllTasks()
+            })
+            .fail(((err) => {
+                console.log(err)
+                $("#alertMessage").text(err.responseJSON.error)
+                $("#alertError").show()
+            }))
         });
 
         function createTask() {
-            $("#home").hide();
-            $("#task").show();
-        }
-
-        function signIn() {
-
+            $("#maincContent").hide()
+            $("#task").show()
         }
 
         function signUp() {
-            $(".signin").hide()
-            $(".signup").show()
+            $("#signinForm").hide()
+            $("#signupForm").show()
+            $("#alertError").hide() 
         }
 
-        function register() {
+        function showAllTasks() {
             $.ajax({
-                method: "POST",
-                url: "http:localhost:3000/register",
+                method: "GET",
+                url: "http://localhost:3000/tasks/all",
                 data: { 
-                    firstName: $(".firstName").val(), 
-                    lastName: $(".firstName").val(),
-                    email: $(".firstName").val(),
-                    password: $(".firstName").val()
+                   token: localStorage.getItem("token")
                 }
-                })
-                .done((user) => {
-                
-                })
-                .fail(((err) => {
-
-                }))
+            })
+            .done((users) => { 
+                console.log(users)
+                //$("#itemList").val('')
+                //$("#itemList").append()
+            })
+            .fail(((err) => {
+                // console.log('woi')
+                // $("#alertMessage").text(err.responseJSON.error)
+                // $("#alertError").show()
+            }))
         }
     </script>
 </body>

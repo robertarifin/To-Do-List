@@ -1,16 +1,17 @@
 "use strict"
 
 const mongoose = require('mongoose');
-const userSchema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var userSchema = new Schema({
+let userSchema = new Schema({
   firstName: String,
   lastName: String,
   email: String,
   password: String,
-  login: String
+  login: String,
+  taskList: [{ type: Schema.Types.ObjectId, ref: 'Task' }]
 })
 
-const User = mongoose.model('User', blogSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User
